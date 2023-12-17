@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:riding_app/authentication/login_screen.dart';
+import 'package:riding_app/authentication/signup_screen.dart';
 import 'package:riding_app/splashScreen/splash_screen.dart';
 
 void main() async {
@@ -11,7 +13,7 @@ void main() async {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const MySplashScreen(),
+    home: const LoginScreen(),
   )));
 }
 
