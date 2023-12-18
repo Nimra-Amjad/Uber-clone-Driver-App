@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:riding_app/authentication/login_screen.dart';
-import 'package:riding_app/authentication/signup_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:riding_app/splashScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp(
       child: MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -13,7 +13,7 @@ void main() async {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const LoginScreen(),
+    home: const MySplashScreen(),
   )));
 }
 

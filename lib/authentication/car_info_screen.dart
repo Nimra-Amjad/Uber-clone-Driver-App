@@ -1,4 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:riding_app/global/global.dart';
+import 'package:riding_app/splashScreen/splash_screen.dart';
 
 class CarInfoScreen extends StatefulWidget {
   const CarInfoScreen({super.key});
@@ -13,6 +17,25 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
   TextEditingController carColorController = TextEditingController();
   List<String> carTypesList = ["uber-x", "uber-go", "bike"];
   String? selectedCarType;
+
+  saveCarInfo() {
+    Map driverCarInfoMap = {
+      "car_color": carColorController.text.trim(),
+      "car_number": carNumberController.text.trim(),
+      "car_model": carModelController.text.trim(),
+      "type": selectedCarType,
+    };
+    DatabaseReference driversRef =
+        FirebaseDatabase.instance.ref().child("drivers");
+    driversRef
+        .child(currentFirebaseUser!.uid)
+        .child("car_details")
+        .set(driverCarInfoMap);
+    Fluttertoast.showToast(msg: "Car Details has been saved. Congratulations!");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (c) => MySplashScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,10 +132,12 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (c) => const CarInfoScreen()));
+                    if (carColorController.text.isNotEmpty &&
+                        carNumberController.text.isNotEmpty &&
+                        carModelController.text.isNotEmpty &&
+                        selectedCarType != null) {
+                      saveCarInfo();
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightGreenAccent),
